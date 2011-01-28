@@ -1,6 +1,7 @@
 // initialize jo
 jo.load();
 
+var nTunesBase = '/source/1';
 
 // The bottom Nav buttons that switch between views
 var navButtons = new joOption([
@@ -10,10 +11,13 @@ var navButtons = new joOption([
   { title: "Genres", id: 'genres' },
   { title: 'More...', id: 'more' }
 ]);
-navButtons.setValue(0);
 navButtons.selectEvent.subscribe(function(id) {
-  console.log(id);
-  //mystack.push(joCache.get(id));
+  if (id == 'more') {
+    // Show 'More' popup window
+  } else {
+    //mystack.push(joCache.get(id));
+    resetStack(id);
+  }
 });
 
 var toolbar = new joToolbar(navButtons);
@@ -38,5 +42,63 @@ var scrn = new joScreen(
   })
 );
 nav.setStack(stack);
+
+
+
+
+var allTracks = '/library playlist/1/track';
+var kinds = {
+  'playlists': {
+    base: '/user playlist',
+    api: '/name',
+    next: function(sel, index) {
+      console.log.apply(console,arguments);      
+    }
+  },
+  'artists': {
+    base: allTracks,
+    api: '/artist?unique=true',
+    next: function(sel) {
+      // goto artist's albums
+    }
+  },
+  'albums': {
+    base: allTracks,
+    api: '/album?unique=true',
+    next: function(sel) {
+
+    }
+  },
+  'genres': {
+    base: allTracks,
+    api: '/genre?unique=true',
+    next: function(sel) {
+
+    }
+  }
+};
+
+function resetStack(kind) {
+  // TODO: Add loading animation?
+  var k = kinds[kind];
+  jx.load(nTunesBase + k.base + k.api, function(data) {
+    var list = new joList(data);
+    list.selectEvent.subscribe(function(id) {
+      k.next(data[id], id);
+    });
+    var card = new joCard([
+      list
+    ]);
+    stack.setData([ card ]);
+    nav.setTitle(kind);
+  }, 'json');
+}
+
+function pushStack(kind, val) {
+  
+}
+
+// Simulate an initial click on the first bar button at the bottom...
+navButtons.setValue(0);
 
 
