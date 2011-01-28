@@ -1,0 +1,3 @@
+[submodule "jo"]
+	path = jo
+	url = https://github.com/davebalmer/jo.git
