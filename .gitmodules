@@ -1,3 +1,6 @@
 [submodule "jo"]
 	path = jo
 	url = https://github.com/davebalmer/jo.git
+[submodule "ModuleJS"]
+	path = ModuleJS
+	url = https://github.com/TooTallNate/ModuleJS.git
