@@ -12,8 +12,25 @@
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
-  <script src="js/jx.js"></script>
-  <script src="js/jo/jo.js"></script>
-  <script src="app.js"></script>
+  <script src="js/jo/jo.js" type="text/javascript"></script>
+  <script src="js/Sandbox.js" type="text/javascript"></script>
+  <script src="js/Module.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    // Manually export all the 'jo' classes we use
+    exports.jo = jo;
+    exports.joNavbar = joNavbar;
+    exports.joStackScroller = joStackScroller;
+    exports.joToolbar = joToolbar;
+    exports.joScreen = joScreen;
+    exports.joContainer = joContainer;
+    exports.joFlexcol = joFlexcol;
+
+    // The XHR constructor needs to be exported for "request.js"
+    exports.XMLHttpRequest = XMLHttpRequest;
+
+    // Load the "main.js" file to fire off the app...
+    module.load('./js/main', function(main) {});
+
+  </script>
 </body>
 </html>
